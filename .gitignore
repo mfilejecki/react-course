@@ -1,0 +1,13 @@
+# Ignore start folder
+01-Getting-started
+
+# Ignore node_modules
+node_modules
+
+# Ignore package-lock
+package-lock.json
+
+
+
+
+
