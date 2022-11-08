@@ -3,6 +3,10 @@ import styles from "./MealItemForm.module.css";
 import Input from "../../UI/Input";
 
 const MealItemForm = (props) => {
+  const submitHandler = (event) => {
+    event.preventDefault();
+  };
+
   const inputSettings = {
     id: `amount_${props.id}`,
     type: "number",
@@ -13,7 +17,7 @@ const MealItemForm = (props) => {
   };
 
   return (
-    <form className={styles.form}>
+    <form className={styles.form} onSubmit={submitHandler}>
       <Input label="Amount" input={inputSettings} />
       <button>+ Add</button>
     </form>
