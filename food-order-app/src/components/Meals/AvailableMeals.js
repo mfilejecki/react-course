@@ -59,16 +59,16 @@ const AvailableMeals = () => {
 
   let content = <p>No meals found.</p>;
 
+  if (isLoading) {
+    content = <p>L o a d i n g ...</p>;
+  }
+
   if (meals.length > 0) {
     content = mealsList;
   }
 
   if (error) {
     content = <p>{error}</p>;
-  }
-
-  if (isLoading) {
-    content = <p>L o a d i n g ...</p>;
   }
 
   return (
