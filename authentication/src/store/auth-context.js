@@ -33,8 +33,6 @@ const retrieveStoredToken = () => {
   return { token: storedToken, duration: remainingTime };
 };
 
-export const API_KEY = "AIzaSyDRt4ONHaHfkRTVFfb2VVb3N32zj_P212E";
-
 export const AuthContextProvider = (props) => {
   const tokenData = retrieveStoredToken();
   let initialToken;
