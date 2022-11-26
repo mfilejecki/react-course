@@ -1,5 +1,7 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
+import AuthContext from "../../store/auth-context";
 
+import { API_KEY } from "../../store/auth-context";
 import classes from "./AuthForm.module.css";
 
 const AuthForm = () => {
@@ -8,6 +10,8 @@ const AuthForm = () => {
 
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
+
+  const authCtx = useContext(AuthContext);
 
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
@@ -25,7 +29,7 @@ const AuthForm = () => {
     try {
       if (isLogin) {
         const response = await fetch(
-          "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDRt4ONHaHfkRTVFfb2VVb3N32zj_P212E",
+          `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`,
           {
             method: "POST",
             body: JSON.stringify({
@@ -47,9 +51,10 @@ const AuthForm = () => {
 
         const data = await response.json();
         console.log(data);
+        authCtx.login(data.idToken);
       } else {
         const response = await fetch(
-          "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDRt4ONHaHfkRTVFfb2VVb3N32zj_P212E",
+          `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`,
           {
             method: "POST",
             body: JSON.stringify({
