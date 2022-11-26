@@ -1,10 +1,12 @@
 import { useState, useRef, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
 
 import { API_KEY } from "../../store/auth-context";
 import classes from "./AuthForm.module.css";
 
 const AuthForm = () => {
+  const history = useHistory();
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -51,7 +53,12 @@ const AuthForm = () => {
 
         const data = await response.json();
         console.log(data);
-        authCtx.login(data.idToken);
+        const expirationTimeInMs = new Date(
+          new Date().getTime() + +data.expiresIn * 1000
+        );
+        authCtx.login(data.idToken, expirationTimeInMs.toISOString());
+
+        history.replace("/");
       } else {
         const response = await fetch(
           `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`,
@@ -76,6 +83,8 @@ const AuthForm = () => {
 
         const data = await response.json();
         console.log(data);
+
+        history.replace("/auth");
       }
     } catch (error) {
       alert(error);
