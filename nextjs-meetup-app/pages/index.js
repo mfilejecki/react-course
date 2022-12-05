@@ -1,10 +1,25 @@
-import { MongoClient } from "mongodb";
+import Head from "next/head";
 
-import MeetupList from "../components/meetups/MeetupList";
+import { MongoClient } from "mongodb";
 import { MONGODBAPIROUTE } from "../components/important/vars";
 
+import MeetupList from "../components/meetups/MeetupList";
+import { Fragment } from "react";
+
 function HomePage(props) {
-  return <MeetupList meetups={props.meetups}></MeetupList>;
+  return (
+    <Fragment>
+      <Head>
+        <title>Manly Meetups</title>
+        <meta
+          name="description"
+          content="Most manly meetups in whole universe. Don't be shy, join our full of
+          testosterone hangouts."
+        />
+      </Head>
+      <MeetupList meetups={props.meetups}></MeetupList>;
+    </Fragment>
+  );
 }
 
 // export async function getServerSideProps() {
