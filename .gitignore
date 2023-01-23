@@ -1,15 +1,33 @@
 # Ignore start folder
 01-Getting-started
+animating-projects
+basics-of-typescript
+behind-scenes
+class-based-components
+custom-hooks_part1
+custom-hooks_part2
+hooks-reminder
+multi-page-SPA-router
+nextjs-test
+react-ts
+redux-basics
+replacing-redux-with-context
+router-6-example-1
+router-6-example-2
+sending-http-requests
+testing-react-apps
+working-with-forms
+
+nextjs-meetup-app/components/important/
+.vscode/
+authentication/src/store/API.js
 
 # Ignore node_modules
 node_modules
+.next
 
 # Ignore package-lock
 package-lock.json
 
 # Ignore all identifier files
 *:Zone.Identifier
-
-
-
-
