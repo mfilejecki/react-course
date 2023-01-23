@@ -1,12 +1,19 @@
-import { useState, ChangeEvent } from "react";
+import { ChangeEvent } from "react";
 
 import styles from "./NewPost.module.css";
 
-export default function NewPost(props: {
-  getDescription: (description: string) => void;
-}) {
+type Props = {
+  onDescriptionChange: (description: string) => void;
+  onNameChange: (name: string) => void;
+};
+
+export default function NewPost(props: Props) {
   const changeTextHandler = (event: ChangeEvent<HTMLTextAreaElement>): void => {
-    props.getDescription(event.target.value);
+    props.onDescriptionChange(event.target.value);
+  };
+
+  const changeNameHandler = (event: ChangeEvent<HTMLInputElement>): void => {
+    props.onNameChange(event.target.value);
   };
 
   return (
@@ -17,7 +24,7 @@ export default function NewPost(props: {
       </p>
       <p>
         <label htmlFor="name">Your name</label>
-        <input type="text" id="name" required />
+        <input type="text" id="name" required onChange={changeNameHandler} />
       </p>
     </form>
   );
