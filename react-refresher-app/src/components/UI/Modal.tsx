@@ -4,14 +4,14 @@ import styles from "./Modal.module.css";
 
 type Props = {
   children: ReactNode;
-  closeModal: () => void;
+  onCloseModal: () => void;
 };
 
 const Modal: React.FC<Props> = (props) => {
-  const { closeModal, children } = props;
+  const { onCloseModal, children } = props;
   return (
     <Fragment>
-      <div onClick={closeModal} className={styles.backdrop}></div>
+      <div onClick={onCloseModal} className={styles.backdrop}></div>
       <dialog open className={styles.modal}>
         {children}
       </dialog>
