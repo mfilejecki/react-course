@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 
 import Post from "./Post";
 import Modal from "../UI/Modal";
@@ -19,6 +19,31 @@ type post = {
 export default function PostList(props: Props) {
   const [posts, setPosts] = useState<post[]>([]);
   const { isPosting, closeModal } = props;
+
+  useEffect(() => {
+    getPosts();
+  }, []);
+
+  const getPosts = async () => {
+    const response = await fetch(
+      "https://react-db887-default-rtdb.europe-west1.firebasedatabase.app/posts.json"
+    );
+
+    if (!response.ok) {
+      return;
+    }
+    const data = await response.json();
+    const newPosts: post[] = [];
+
+    for (const key in data) {
+      newPosts.push({
+        name: data[key].name,
+        description: data[key].description,
+      });
+    }
+
+    setPosts(newPosts);
+  };
 
   const getPosterDataHandler = (data: post) => {
     setPosts((prevState) => {

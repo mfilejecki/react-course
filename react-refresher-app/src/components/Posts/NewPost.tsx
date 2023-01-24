@@ -13,6 +13,26 @@ export default function NewPost(props: Props) {
   const [enteredName, setEnteredName] = useState("Marcel");
 
   const { onCancel, onAddPost } = props;
+
+  const sendPost = async (data: { description: string; name: string }) => {
+    const response = await fetch(
+      "https://react-db887-default-rtdb.europe-west1.firebasedatabase.app/posts.json",
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application-json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      return;
+    }
+
+    console.log("Request sent!");
+  };
+
   const changeTextHandler = (event: ChangeEvent<HTMLTextAreaElement>): void => {
     setEnteredDescription(event.target.value);
   };
@@ -28,6 +48,7 @@ export default function NewPost(props: Props) {
       name: enteredName,
     };
     onAddPost(posterData);
+    sendPost(posterData);
     onCancel();
   };
 
