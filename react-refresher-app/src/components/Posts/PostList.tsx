@@ -18,6 +18,7 @@ type post = {
 
 export default function PostList(props: Props) {
   const [posts, setPosts] = useState<post[]>([]);
+  const [isFetching, setIsFetching] = useState(false);
   const { isPosting, closeModal } = props;
 
   useEffect(() => {
@@ -25,6 +26,7 @@ export default function PostList(props: Props) {
   }, []);
 
   const getPosts = async () => {
+    setIsFetching(true);
     const response = await fetch(
       "https://react-db887-default-rtdb.europe-west1.firebasedatabase.app/posts.json"
     );
@@ -42,6 +44,7 @@ export default function PostList(props: Props) {
       });
     }
 
+    setIsFetching(false);
     setPosts(newPosts);
   };
 
@@ -63,11 +66,16 @@ export default function PostList(props: Props) {
         </Modal>
       )}
       <ul className={styles.posts}>
-        {posts.length > 0 && mappedPosts}
-        {posts.length === 0 && (
+        {!isFetching && posts.length > 0 && mappedPosts}
+        {!isFetching && posts.length === 0 && (
           <div className={styles["center-info"]}>
             <h2>There are no posts</h2>
             <p>Start adding some!</p>
+          </div>
+        )}
+        {isFetching && (
+          <div className={styles["center-info"]}>
+            <p>Loading...</p>
           </div>
         )}
       </ul>
