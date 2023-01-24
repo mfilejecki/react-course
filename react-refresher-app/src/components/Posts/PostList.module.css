@@ -8,3 +8,9 @@
   grid-template-columns: repeat(3, 30%);
   justify-content: center;
 }
+
+.center-info {
+  text-align: center;
+  color: #fff;
+  grid-column: 2;
+}

@@ -1,23 +1,38 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 
 import styles from "./NewPost.module.css";
 
 type Props = {
-  onDescriptionChange: (description: string) => void;
-  onNameChange: (name: string) => void;
+  onAddPost: (data: { description: string; name: string }) => void;
+  onCancel: () => void;
 };
 
 export default function NewPost(props: Props) {
+  const [enteredDescription, setEnteredDescription] =
+    useState("NextJs jest pogers");
+  const [enteredName, setEnteredName] = useState("Marcel");
+
+  const { onCancel, onAddPost } = props;
   const changeTextHandler = (event: ChangeEvent<HTMLTextAreaElement>): void => {
-    props.onDescriptionChange(event.target.value);
+    setEnteredDescription(event.target.value);
   };
 
   const changeNameHandler = (event: ChangeEvent<HTMLInputElement>): void => {
-    props.onNameChange(event.target.value);
+    setEnteredName(event.target.value);
+  };
+
+  const submitHandler = (event: ChangeEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+    const posterData = {
+      description: enteredDescription,
+      name: enteredName,
+    };
+    onAddPost(posterData);
+    onCancel();
   };
 
   return (
-    <form className={styles.form}>
+    <form className={styles.form} onSubmit={submitHandler}>
       <p>
         <label htmlFor="body">Text</label>
         <textarea id="body" required rows={3} onChange={changeTextHandler} />
@@ -25,6 +40,12 @@ export default function NewPost(props: Props) {
       <p>
         <label htmlFor="name">Your name</label>
         <input type="text" id="name" required onChange={changeNameHandler} />
+      </p>
+      <p className={styles.actions}>
+        <button type="button" onClick={onCancel}>
+          Cancel
+        </button>
+        <button>Submit</button>
       </p>
     </form>
   );
