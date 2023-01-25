@@ -1,25 +1,20 @@
+import { postActions } from "@/store/newPostSlice";
 import { Fragment, useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import Post from "./Post";
-import Modal from "../UI/Modal";
-import NewPost from "./NewPost";
 
 import styles from "./PostList.module.css";
-
-type Props = {
-  isPosting: boolean;
-  closeModal: () => void;
-};
 
 type post = {
   description: string;
   name: string;
 };
 
-export default function PostList(props: Props) {
-  const [posts, setPosts] = useState<post[]>([]);
+export default function PostList() {
   const [isFetching, setIsFetching] = useState(false);
-  const { isPosting, closeModal } = props;
+  const posts = useSelector((state: any) => state.post.posts);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getPosts();
@@ -45,13 +40,8 @@ export default function PostList(props: Props) {
     }
 
     setIsFetching(false);
-    setPosts(newPosts);
-  };
-
-  const getPosterDataHandler = (data: post) => {
-    setPosts((prevState) => {
-      return [data, ...prevState];
-    });
+    dispatch(postActions.fetchPosts(newPosts));
+    // console.log("WYsyła?");
   };
 
   const mappedPosts = posts.map((post: post, index: number) => {
@@ -60,11 +50,6 @@ export default function PostList(props: Props) {
 
   return (
     <Fragment>
-      {isPosting && (
-        <Modal onCloseModal={closeModal}>
-          <NewPost onCancel={closeModal} onAddPost={getPosterDataHandler} />
-        </Modal>
-      )}
       <ul className={styles.posts}>
         {!isFetching && posts.length > 0 && mappedPosts}
         {!isFetching && posts.length === 0 && (
